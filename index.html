@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sandy Hills avisa – Nyheter</title>
+    <link rel="stylesheet" href="design.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f4f4;
+            color: #151515;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            background: #111;
+            color: white;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+
+        .topbar-inner {
+            width: min(1100px, calc(100% - 30px));
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: auto;
+            height: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: -4px;
+            color: #0029c1;
+        }
+
+        .header-right {     
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login {
+            border: 1px solid #ccc;
+            padding: 10px 18px;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .login:hover {
+            background: #f2f2f2;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        nav {
+            background: white;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            overflow-x: auto;
+        }
+
+        nav a {
+            color: #111;
+            text-decoration: none;
+            padding: 17px 18px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background: #eee;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            width: min(1100px, calc(100% - 32px));
+            margin: 30px auto;
+        }
+
+        .page-title {
+            font-size: clamp(28px, 4vw, 34px);
+            margin-bottom: 20px;
+            border-bottom: 4px solid #0029c1;
+            padding-bottom: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================
+           NEWS GRID
+        ========================= */
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .article {
+            background: white;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .article:hover {
+            transform: translateY(-2px);
+        }
+
+        .article img,
+        .article video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+        }
+
+        .published-story-media {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .published-story-media img,
+        .published-story-media video {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: contain;
+        }
+
+        .article.has-video {
+            display: flex;
+            flex-direction: column;
+            align-self: start;
+            height: fit-content;
+            position: relative;
+        }
+
+        .article.has-video > .article-content {
+            order: 0;
+        }
+
+        .article video {
+            height: auto;
+            aspect-ratio: 9 / 16;
+            object-fit: contain;
+            background: #111;
+        }
+
+        .article .published-story-media video {
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: cover;
+        }
+
+        .article.has-video > .video-player-frame {
+            order: 1;
+        }
+
+        .article-video-feature.has-video > .article-content {
+            position: absolute;
+            inset: auto 0 0;
+            z-index: 2;
+            display: block;
+            padding: 52px 16px 18px;
+            color: #fff;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.88));
+        }
+
+        .article-video-feature.has-video > .video-player-frame {
+            order: 0;
+            width: 100%;
+        }
+
+        .article-video-feature.has-video {
+            position: relative;
+            overflow: hidden;
+            background: #111;
+            align-self: stretch;
+            height: auto;
+        }
+
+        .video-player-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .article-video-feature.has-video > .video-player-frame {
+            aspect-ratio: 9 / 16;
+        }
+
+        .article-video-feature.has-video .video-player-frame > video {
+            object-fit: cover;
+        }
+
+        .video-player-frame > video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: contain;
+            background: #111;
+        }
+
+        .article-video-feature.has-video .category {
+            color: #c9d5ff;
+            margin-bottom: 6px;
+        }
+
+        .article-video-feature.has-video h2 {
+            margin-bottom: 0;
+            font-size: 22px;
+            line-height: 1.15;
+        }
+
+        .article-video-feature.has-video .article-content p,
+        .article-video-feature.has-video .article-content .time {
+            display: none;
+        }
+
+        .video-play-button {
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            left: 50%;
+            display: grid;
+            width: 72px;
+            height: 72px;
+            place-items: center;
+            padding: 0;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            background: #0029c1;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+        }
+
+        .video-play-button span {
+            width: 0;
+            height: 0;
+            margin-left: 5px;
+            border-top: 13px solid transparent;
+            border-bottom: 13px solid transparent;
+            border-left: 20px solid #fff;
+        }
+
+        .video-play-button:hover {
+            background: #1745df;
+            transform: translate(-50%, -50%) scale(1.06);
+        }
+
+        .video-player-frame.is-playing .video-play-button {
+            display: none;
+        }
+
+        .video-overlay-controls {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.58);
+            color: #fff;
+        }
+
+        .video-overlay-controls button {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            place-items: center;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .video-overlay-controls button:hover,
+        .video-overlay-controls button:focus-visible {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .video-overlay-controls svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .video-volume-slider {
+            width: 74px;
+            height: 4px;
+            accent-color: #fff;
+            cursor: pointer;
+        }
+
+        .video-player-frame:fullscreen {
+            display: grid;
+            width: 100vw;
+            height: 100vh;
+            aspect-ratio: auto;
+            place-items: center;
+            background: #000;
+        }
+
+        .video-player-frame:fullscreen > video {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            object-fit: contain;
+        }
+
+        .article-video-feature {
+            align-self: start;
+            height: fit-content;
+        }
+
+        .article-video-feature > .article-content {
+            display: none;
+        }
+
+        .article-video-feature > img {
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .article-video-feature:not(.has-video) > .article-content {
+            display: block;
+        }
+
+        .article-content {
+            padding: 17px;
+        }
+
+        .category {
+            color: #0029c1;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+
+        .article h2 {
+            font-size: 23px;
+            line-height: 1.15;
+            margin-bottom: 8px;
+        }
+
+        .article-main h2 {
+            font-size: 32px;
+        }
+
+        .article p {
+            color: #555;
+            line-height: 1.45;
+        }
+
+        .top-controls {
+            width: min(1100px, calc(100% - 32px));
+            margin: 12px auto 0;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            z-index: 50;
+        }
+
+        #adminButton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 52px;
+            padding: 0;
+            margin: 0;
+            border: 1px solid rgba(17, 17, 17, 0.08);
+            border-radius: 0.4rem;
+            background: #fff;
+            color: #000;
+            font-size: 1.05rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        #adminButton:hover {
+            background: #f5f5f5;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+        }
+
+        #adminButton:focus-visible {
+            outline: 3px solid rgba(31, 90, 166, 0.3);
+            outline-offset: 2px;
+        }
+
+        #editor {
+            position: relative;
+            z-index: 10;
+        }
+
+        #editor {
+            max-width: 1100px;
+            margin: 18px auto;
+            padding: 20px;
+            border: 1px solid #dfe3eb;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        #editor h2 {
+            margin-bottom: 12px;
+        }
+
+        .editor-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .editor-actions button,
+        .story-form button,
+        #saveEditsButton {
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 5px;
+            background: #0029c1;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .editor-actions button.secondary {
+            border: 1px solid #ccd2df;
+            background: #fff;
+            color: #222;
+        }
+
+        .article-management {
+            display: grid;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .article-management[hidden] {
+            display: none;
+        }
+
+        .article-management-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            border: 1px solid #e1e4eb;
+            border-radius: 6px;
+        }
+
+        .article-management-item button {
+            flex: 0 0 auto;
+            padding: 8px 12px;
+            border: 1px solid #ccd2df;
+            border-radius: 5px;
+            background: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .story-form button.secondary {
+            border: 1px solid #ccd2df;
+            background: #fff;
+            color: #222;
+        }
+
+        .story-form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .story-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            padding-top: 16px;
+            border-top: 1px solid #e6e8ed;
+        }
+
+        .story-form[hidden] {
+            display: none;
+        }
+
+        .story-form label {
+            display: grid;
+            gap: 6px;
+            font-weight: 700;
+        }
+
+        .story-form label small {
+            color: #666;
+            font-weight: 400;
+        }
+
+        .story-form label.full-width,
+        .story-media-preview-layout,
+        .story-crop-controls,
+        .story-form-actions,
+        #storyFormMessage {
+            grid-column: 1 / -1;
+        }
+
+        .story-form input,
+        .story-form textarea,
+        .story-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #c9ced8;
+            border-radius: 5px;
+            font: inherit;
+        }
+
+        .story-form textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        #storyBodyInput {
+            min-height: 220px;
+        }
+
+        .story-media-preview-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 560px) max-content;
+            align-items: start;
+            gap: 12px;
+            width: min(100%, 720px);
+        }
+
+        .story-media-preview-layout[hidden] {
+            display: none;
+        }
+
+        .story-media-preview-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 6px;
+            background: #111;
+        }
+
+        .story-media-preview-frame[hidden],
+        .story-media-preview-frame img[hidden],
+        .story-media-preview-frame video[hidden] {
+            display: none;
+        }
+
+        .story-media-preview-frame {
+            display: block;
+        }
+
+        .story-media-preview-frame img,
+        .story-media-preview-frame video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-media-preview-frame video {
+            object-fit: contain;
+        }
+
+        .story-media-preview-frame img:not([hidden]),
+        .story-media-preview-frame video:not([hidden]) {
+            display: block;
+        }
+
+        .story-crop-toggle {
+            justify-self: start;
+            align-self: start;
+            margin-top: 2px;
+            padding: 9px 14px;
+            border: 1px solid #0029c1;
+            border-radius: 5px;
+            background: #fff;
+            color: #0029c1;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .story-crop-toggle[hidden] {
+            display: none;
+        }
+
+        .story-crop-controls {
+            display: grid;
+            grid-template-columns: auto auto auto minmax(0, 1fr);
+            align-items: center;
+            gap: 8px;
+            max-width: 560px;
+            padding: 12px;
+            border: 1px solid #dfe3eb;
+            border-radius: 6px;
+            background: #f8f9fb;
+        }
+
+        .story-crop-controls[hidden] {
+            display: none;
+        }
+
+        .story-crop-controls label {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .crop-tool-button {
+            min-width: 40px;
+            min-height: 40px;
+            padding: 8px 12px;
+            border: 1px solid #c9ced8;
+            border-radius: 5px;
+            background: #fff;
+            color: #20232a;
+            font: inherit;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .story-media-preview-frame.is-cropping,
+        #selectedImagePreview.is-cropping {
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .story-media-preview-frame.is-cropping:active,
+        #selectedImagePreview.is-cropping:active {
+            cursor: grabbing;
+        }
+
+        .legacy-crop-layout {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .legacy-crop-layout[hidden],
+        .legacy-crop-tools[hidden] {
+            display: none;
+        }
+
+        .legacy-crop-layout #selectedImagePreview {
+            margin-top: 0 !important;
+        }
+
+        .legacy-crop-toggle {
+            padding: 9px 14px;
+            border: 1px solid #0029c1;
+            border-radius: 5px;
+            background: #fff;
+            color: #0029c1;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .legacy-crop-tools {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 520px) {
+            .story-media-preview-layout {
+                grid-template-columns: minmax(0, 1fr) max-content;
+                gap: 8px;
+                align-items: center;
+            }
+
+            .story-crop-toggle {
+                padding: 8px 9px;
+                font-size: 13px;
+            }
+        }
+
+        #storyFormMessage {
+            min-height: 1.25em;
+            color: #a12626;
+            font-weight: 700;
+        }
+
+        #storyFormMessage[data-state="success"] {
+            color: #23733b;
+        }
+
+        #storyFormMessage[data-state="info"] {
+            color: #1f5aa6;
+        }
+
+        .published-story-byline {
+            margin-top: 9px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .detail-byline {
+            margin: 0 0 18px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .detail-caption {
+            margin: -12px 0 20px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .detail-story-body {
+            margin-top: 22px;
+            font-size: 18px;
+            line-height: 1.8;
+            white-space: pre-line;
+            white-space: pre-line;
+        }
+
+        .detail-story-body p {
+            margin: 0 0 18px;
+        }
+
+        .article img {
+            background: #e7edf4;
+        }
+
+        #colorInput {
+            touch-action: pan-y;
+            cursor: pointer;
+        }
+
+        /* =========================
+           MORE NEWS
+        ========================= */
+
+        .section-title {
+            margin-top: 40px;
+            margin-bottom: 15px;
+            font-size: 25px;
+            border-bottom: 2px solid #111;
+            padding-bottom: 8px;
+        }
+
+        .more-news {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        /* =========================
+           ADVERTISEMENT
+        ========================= */
+
+        .ad {
+            height: 130px;
+            background: #e9e9e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            margin: 25px 0;
+            font-size: 12px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #151515;
+            color: white;
+            margin-top: 50px;
+            padding: 45px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            color: white;
+            font-size: 38px;
+            font-weight: 900;
+        }
+
+        footer p {
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        .test-images-note {
+            max-width: 420px;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            #editor {
+                width: calc(100% - 24px);
+                margin: 14px auto;
+            }
+
+            .header-inner {
+                width: calc(100% - 24px);
+                height: 76px;
+                padding: 0;
+            }
+
+            .logo {
+                font-size: clamp(27px, 7vw, 40px);
+                letter-spacing: -2px;
+            }
+
+            .topbar-inner {
+                padding: 0;
+            }
+
+            main {
+                width: calc(100% - 24px);
+                margin: 20px auto;
+            }
+
+            .news-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .article-main {
+                grid-column: 1 / -1;
+            }
+
+            .article-main h2 {
+                font-size: clamp(24px, 5vw, 30px);
+            }
+
+            .article-content {
+                padding: 13px;
+            }
+
+            .article h2 {
+                font-size: clamp(18px, 3vw, 22px);
+            }
+
+            .more-news {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .section-title {
+                margin-top: 28px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .story-form {
+                grid-template-columns: 1fr;
+            }
+
+            .story-form label.full-width,
+            .story-media-preview-frame,
+            .story-crop-controls,
+            .story-form-actions,
+            #storyFormMessage {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .news-grid,
+            .more-news {
+                grid-template-columns: 1fr;
+            }
+
+            .article-main {
+                grid-column: auto;
+            }
+
+            .article-content {
+                padding: 14px;
+            }
+
+            .article-main h2 {
+                font-size: 25px;
+            }
+
+            .article h2 {
+                font-size: 21px;
+            }
+
+            #adminButton {
+                width: 100px;
+                height: 46px;
+            }
+        }
+
+        #editor {
+            width: min(1100px, calc(100% - 32px));
+            margin: 24px auto;
+            padding: clamp(20px, 4vw, 36px);
+            border: 1px solid #e3e7ef;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 18px 48px rgba(18, 30, 58, 0.12);
+        }
+
+        #editor > h2 {
+            margin: 0 0 8px;
+            color: #17213a;
+            font-size: clamp(25px, 4vw, 34px);
+            letter-spacing: -0.04em;
+        }
+
+        #editor > p:first-of-type {
+            max-width: 680px;
+            color: #667085;
+            line-height: 1.6;
+        }
+
+        .editor-actions {
+            margin: 24px 0 18px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9edf3;
+        }
+
+        .editor-actions button,
+        .story-form button,
+        #saveEditsButton,
+        .article-management-item button {
+            min-height: 44px;
+            padding: 11px 17px;
+            border: 1px solid #183bb5;
+            border-radius: 9px;
+            background: #183bb5;
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .editor-actions button:hover,
+        .story-form button:hover,
+        #saveEditsButton:hover,
+        .article-management-item button:hover {
+            background: #102f9b;
+            box-shadow: 0 5px 14px rgba(24, 59, 181, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .editor-actions button.secondary,
+        .story-form button.secondary,
+        .article-management-item button {
+            border-color: #d7dce5;
+            background: #fff;
+            color: #293247;
+        }
+
+        .editor-actions button.secondary:hover,
+        .story-form button.secondary:hover,
+        .article-management-item button:hover {
+            border-color: #aeb9d1;
+            background: #f5f7fb;
+            box-shadow: none;
+        }
+
+        .article-management-item button.danger {
+            border-color: #e4b7b7;
+            background: #fff5f5;
+            color: #a12626;
+        }
+
+        .article-management-item button.danger:hover {
+            border-color: #d89090;
+            background: #ffe8e8;
+            color: #861d1d;
+        }
+
+        .story-form {
+            gap: 20px;
+            padding: 24px;
+            border: 1px solid #e4e9f1;
+            border-radius: 14px;
+            background: #fbfcfe;
+        }
+
+        .story-form label {
+            gap: 8px;
+            color: #273149;
+            font-size: 14px;
+        }
+
+        .story-form label small {
+            color: #737e91;
+            line-height: 1.45;
+        }
+
+        .story-form input,
+        .story-form textarea,
+        .story-form select {
+            min-height: 46px;
+            padding: 12px 13px;
+            border: 1px solid #cfd6e2;
+            border-radius: 8px;
+            background: #fff;
+            color: #182033;
+            font: inherit;
+        }
+
+        .story-form textarea {
+            min-height: 120px;
+        }
+
+        #storyBodyInput {
+            min-height: 260px;
+        }
+
+        .story-form input:focus,
+        .story-form textarea:focus,
+        .story-form select:focus {
+            border-color: #3156cc;
+            outline: 3px solid rgba(49, 86, 204, 0.14);
+        }
+
+        .story-form input[type="file"] {
+            padding: 8px;
+            background: #fff;
+        }
+
+        .story-media-preview-frame {
+            border: 1px solid #dfe4ec;
+            border-radius: 10px;
+            background: #111;
+        }
+
+        .story-crop-controls {
+            border-color: #dfe4ec;
+            border-radius: 10px;
+            background: #fff;
+            line-height: 1.5;
+        }
+
+        .story-form-actions {
+            padding-top: 4px;
+        }
+
+        #storyFormMessage {
+            margin-bottom: -8px;
+        }
+
+        .article-management {
+            gap: 10px;
+            margin: 18px 0 24px;
+        }
+
+        .article-management-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 14px 16px;
+            border-color: #e4e9f1;
+            border-radius: 10px;
+            background: #fbfcfe;
+        }
+
+        .article-management-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1 1 320px;
+            min-width: 0;
+        }
+
+        .article-management-text {
+            display: grid;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .article-management-title {
+            overflow-wrap: anywhere;
+            color: #273149;
+            font-weight: 600;
+        }
+
+        .article-management-category,
+        .article-management-image-status {
+            color: #687386;
+            font-size: 13px;
+        }
+
+        .article-management-thumbnail {
+            width: 76px;
+            height: 54px;
+            flex: 0 0 76px;
+            border-radius: 6px;
+            background: #eef1f6;
+            object-fit: cover;
+        }
+
+        .article-management-thumbnail[hidden] {
+            display: none;
+        }
+
+        .article-management-actions {
+            display: flex;
+            flex: 1 1 100%;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 8px;
+        }
+
+        .article-management-image-editor {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 10px;
+            flex: 1 1 100%;
+            width: 100%;
+            min-width: 0;
+            padding-top: 12px;
+            border-top: 1px solid #e4e9f1;
+        }
+
+        .article-management-image-editor[hidden] {
+            display: none;
+        }
+
+        .article-management-image-editor > img {
+            width: min(240px, 100%);
+            height: 135px;
+            border: 1px solid #dfe4ec;
+            border-radius: 8px;
+            background: #eef1f6;
+            object-fit: contain;
+        }
+
+        .article-management-image-editor .story-media-preview-frame {
+            width: min(240px, 100%);
+            flex: 0 1 240px;
+            border: 1px solid #dfe4ec;
+            border-radius: 8px;
+        }
+
+        .article-management-image-editor .story-media-preview-frame img,
+        .article-management-image-editor .story-media-preview-frame video {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+            object-fit: cover;
+        }
+
+        .article-management-image-editor .story-media-preview-frame video {
+            object-fit: contain;
+        }
+
+        .admin-manager-message {
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #eef3ff;
+            color: #183b91;
+            line-height: 1.45;
+        }
+
+        .admin-manager-message[hidden] {
+            display: none;
+        }
+
+        .admin-manager-message[data-state="error"] {
+            background: #fff0f0;
+            color: #9c2525;
+        }
+
+        .admin-manager-message[data-state="success"] {
+            background: #edf8ef;
+            color: #176a2e;
+        }
+
+        .editor-actions button:disabled,
+        .story-form button:disabled,
+        #saveEditsButton:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #legacyEditControls {
+            padding-top: 22px;
+            border-top: 1px solid #e9edf3;
+        }
+
+        #adminButton {
+            border: 0;
+            border-radius: 9px;
+            background: #183bb5;
+            color: #fff;
+            box-shadow: 0 5px 16px rgba(24, 59, 181, 0.2);
+        }
+
+        #adminButton[hidden] {
+            display: none;
+        }
+
+        #adminButton:hover {
+            background: #102f9b;
+        }
+
+        .auth-login-button,
+        .auth-logout-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 104px;
+            min-height: 46px;
+            padding: 10px 16px;
+            border: 1px solid #d7dce5;
+            border-radius: 9px;
+            background: #fff;
+            color: #293247;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .auth-login-button:hover,
+        .auth-logout-button:hover {
+            background: #f5f7fb;
+        }
+
+        .auth-login-button[hidden],
+        .auth-logout-button[hidden] {
+            display: none;
+        }
+
+        #adminLoginDialog {
+            width: min(420px, calc(100% - 32px));
+            margin: auto;
+            padding: 28px;
+            border: 1px solid #e3e7ef;
+            border-radius: 16px;
+            color: #17213a;
+            box-shadow: 0 24px 70px rgba(10, 20, 45, 0.28);
+        }
+
+        #adminLoginDialog::backdrop {
+            background: rgba(15, 23, 42, 0.58);
+            backdrop-filter: blur(3px);
+        }
+
+        #adminLoginDialog h2 {
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+
+        #adminLoginDialog p {
+            color: #667085;
+            line-height: 1.5;
+        }
+
+        #adminLoginForm {
+            display: grid;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        #adminLoginForm label {
+            display: grid;
+            gap: 7px;
+            font-weight: 700;
+        }
+
+        #adminLoginForm input {
+            min-height: 46px;
+            padding: 11px 12px;
+            border: 1px solid #cfd6e2;
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        #adminLoginForm input:focus {
+            border-color: #3156cc;
+            outline: 3px solid rgba(49, 86, 204, 0.14);
+        }
+
+        .admin-login-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .admin-login-actions button {
+            min-height: 42px;
+            padding: 9px 14px;
+            border: 1px solid #d7dce5;
+            border-radius: 8px;
+            background: #fff;
+            color: #293247;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .admin-login-actions button[type="submit"] {
+            border-color: #183bb5;
+            background: #183bb5;
+            color: #fff;
+        }
+
+        #adminLoginMessage {
+            min-height: 1.25em;
+            color: #a12626 !important;
+            font-weight: 700;
+        }
+
+        @media (max-width: 640px) {
+            #editor {
+                width: calc(100% - 24px);
+                padding: 20px 16px;
+                border-radius: 14px;
+            }
+
+            .editor-actions {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .editor-actions button {
+                width: 100%;
+            }
+
+            .story-form {
+                padding: 16px;
+            }
+
+            .story-media-preview-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .article-management-item {
+                align-items: flex-start;
+                flex-direction: column;
+                width: 100%;
+                min-width: 0;
+            }
+
+            .article-management-info {
+                width: 100%;
+                flex: none;
+                align-self: stretch;
+            }
+
+            .article-management-actions {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                flex: none;
+                align-self: stretch;
+            }
+
+            .article-management-actions button {
+                width: 100%;
+                min-width: 0;
+                flex: none;
+                min-height: 44px;
+                height: auto;
+                overflow-wrap: anywhere;
+            }
+
+            .article-management-image-editor img {
+                width: 100%;
+            }
+
+            .article-management-image-editor {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                width: 100%;
+                flex: none;
+                align-self: stretch;
+            }
+
+            .article-management-image-editor .story-media-preview-frame {
+                grid-column: 1 / -1;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .article-management-image-editor > button {
+                width: 100%;
+                min-width: 0;
+                overflow-wrap: anywhere;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <dialog id="adminLoginDialog" aria-labelledby="adminLoginTitle">
+        <h2 id="adminLoginTitle">Logg inn som administrator</h2>
+        <p>Du kan lese alle sakene uten å logge inn. Logg inn for å åpne adminverktøyene.</p>
+        <form id="adminLoginForm">
+            <label for="adminUsernameInput">Brukernavn</label>
+            <input id="adminUsernameInput" type="text" autocomplete="username" required>
+            <label for="adminPasswordInput">Passord</label>
+            <input id="adminPasswordInput" type="password" autocomplete="current-password" required>
+            <p id="adminLoginMessage" role="status" aria-live="polite"></p>
+            <div class="admin-login-actions">
+                <button id="cancelAdminLogin" type="button">Avbryt</button>
+                <button type="submit">Logg inn</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="editor" style="display: none;">
+        <h2>Adminredigering</h2>
+        <p>Velg en knapp. Når du redigerer, velger du saken fra listen. Endringer lagres på denne enheten.</p>
+
+        <div class="editor-actions">
+            <button id="newStoryButton" type="button">Skriv ny sak</button>
+            <button id="editExistingButton" class="secondary" type="button">Velg en sak å redigere</button>
+            <button id="adminLogoutButton" class="secondary" type="button">Logg ut</button>
+        </div>
+
+        <p id="adminManagerMessage" class="admin-manager-message" role="status" aria-live="polite" hidden></p>
+        <div id="articleManagement" class="article-management" hidden></div>
+
+        <form id="storyComposer" class="story-form" hidden>
+            <label>
+                Overskrift
+                <input id="storyTitleInput" type="text" maxlength="140" required placeholder="Hva er det viktigste som har skjedd?">
+            </label>
+            <label>
+                Kategori
+                <input id="storyCategoryInput" type="text" maxlength="40" required placeholder="For eksempel Nyheter eller Sport">
+            </label>
+            <label>
+                Journalist
+                <input id="storyAuthorInput" type="text" maxlength="80" placeholder="For eksempel Sondre Sørli">
+            </label>
+            <label>
+                Bilde eller video
+                <input id="storyImageInput" type="file" accept="image/*,video/*">
+                <small>Velg et bilde eller en video (maks 30 MB). Du får en forhåndsvisning før du lagrer.</small>
+            </label>
+            <label class="full-width">
+                Ingress
+                <textarea id="storyExcerptInput" maxlength="400" required placeholder="Kort oppsummering som introduserer saken."></textarea>
+            </label>
+            <label class="full-width">
+                Brødtekst
+                <textarea id="storyBodyInput" required placeholder="Skriv saken. Bruk en tom linje mellom avsnittene."></textarea>
+            </label>
+            <label class="full-width">
+                Bildetekst
+                <input id="storyCaptionInput" type="text" maxlength="180" placeholder="Fotograf / beskrivelse (valgfritt)">
+            </label>
+            <div id="storyMediaPreviewLayout" class="story-media-preview-layout" hidden>
+                <div id="storyMediaPreviewFrame" class="story-media-preview-frame" hidden>
+                    <img id="storyImagePreview" src="" alt="Forhåndsvisning av artikkelbilde" hidden>
+                    <video id="storyVideoPreview" controls playsinline preload="metadata" aria-label="Forhåndsvisning av artikkelvideo" hidden></video>
+                </div>
+                <button id="storyCropToggle" class="story-crop-toggle" type="button" aria-expanded="false" aria-controls="storyCropControls" hidden>Beskjær bilde</button>
+            </div>
+            <fieldset id="storyCropControls" class="story-crop-controls" hidden>
+                <legend>Beskjær mediet slik det vises i saken</legend>
+                <button id="storyCropZoomOut" class="crop-tool-button" type="button" aria-label="Zoom ut">−</button>
+                <button id="storyCropZoomIn" class="crop-tool-button" type="button" aria-label="Zoom inn">+</button>
+                <button id="storyCropReset" class="crop-tool-button" type="button">Tilbakestill</button>
+                <span>Dra bildet for å justere utsnitt. Bruk + og − eller musehjulet for zoom.</span>
+            </fieldset>
+            <p id="storyFormMessage" role="status" aria-live="polite"></p>
+            <div class="story-form-actions">
+                <button type="submit">Publiser saken</button>
+                <button id="cancelStoryButton" class="secondary" type="button">Avbryt</button>
+            </div>
+        </form>
+
+        <div id="legacyEditControls">
+        <div id="selectedTypeLabel" style="font-weight:700; color:#1f5aa6; margin-bottom:8px;">Ingen valgt</div>
+
+        <input id="titleInput" type="text" placeholder="Tekst / overskrift">
+        <br><br>
+
+        <textarea id="textInput" placeholder="Brødtekst"></textarea>
+        <br><br>
+
+        <label for="colorInput" style="display:inline-block; margin-bottom:8px; font-weight:700;">Farge</label>
+        <input id="colorInput" type="color" value="#000000" style="width:56px; height:40px; padding:0; border:none; background:transparent; vertical-align:middle;">
+        <br><br>
+
+        <input id="imageInput" type="text" placeholder="Bilde-URL eller filnavn" style="display:none;">
+        <br><br>
+
+        <input id="imageFileInput" type="file" accept="image/*,video/*,.png,.jpg,.jpeg,.webp,.gif,.mp4,.webm,.ogg,.mov" hidden>
+        <button id="addPictureBtn" type="button">Legg til bilde eller video</button>
+        <button id="removeMediaBtn" type="button" hidden style="margin-left:8px; padding:8px 12px; border:1px solid #d7b0b0; border-radius:6px; background:#fff5f5; color:#a12626; font-weight:700; cursor:pointer;">Fjern bilde eller video</button>
+
+        <div id="legacyCropLayout" class="legacy-crop-layout" hidden>
+            <div>
+                <div id="selectedImagePreview" style="display:none; width:min(100%, 420px); aspect-ratio:16 / 9; overflow:hidden; border:1px solid #ddd; border-radius:8px; background:#111;">
+                    <img id="selectedImagePreviewImg" src="" alt="Forhåndsvisning" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    <video id="selectedVideoPreview" controls playsinline preload="metadata" style="width:100%; height:100%; object-fit:cover; display:none;"></video>
+                </div>
+                <div id="legacyCropTools" class="legacy-crop-tools" hidden>
+                    <button id="legacyCropZoomOut" class="crop-tool-button" type="button" aria-label="Zoom ut">−</button>
+                    <button id="legacyCropZoomIn" class="crop-tool-button" type="button" aria-label="Zoom inn">+</button>
+                    <button id="legacyCropReset" class="crop-tool-button" type="button">Tilbakestill</button>
+                </div>
+            </div>
+            <button id="legacyCropToggle" class="legacy-crop-toggle" type="button" aria-expanded="false">Beskjær bilde</button>
+        </div>
+
+        <p id="adminInstruction" style="margin-top:12px; font-weight:700; color:#1f5aa6;">
+            Klikk på teksten eller bildet du vil endre.
+        </p>
+        <br>
+
+        <button id="saveEditsButton" onclick="saveChanges()">Lagre endringer</button>
+        </div>
+    </div>
+
+    <!-- Load the admin JavaScript -->
+    <script src="admin_button.js"></script>
+    
+
+    <!-- TOP INFORMATION BAR -->
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div id="date"></div>
+            <span>Nyheter</span>
+        </div>
+    </div>
+
+    <div class="top-controls">
+        <button id="adminButton" type="button" hidden>Admin</button>
+    </div>
+
+    <script src="datetoday.js"></script>
+    <script src="article_navigation.js"></script>
+
+    <!-- HEADER -->
+
+    <header>
+        <div class="header-inner">
+
+            <div class="logo">
+                SANDY HILLS NEWS
+            </div>
+
+            <div class="header-right">
+                
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#">Forsiden</a>
+            <a href="#">Kantine</a>
+            <a href="sport.html">Sport</a>
+        </div>
+    </nav>
+
+
+    <!-- PAGE -->
+
+    <main>
+
+        <h1 class="page-title">
+            Nyheter
+        </h1>
+
+
+        <!-- FEATURED NEWS -->
+
+        <section class="news-grid">
+
+            <article class="article article-main" data-url="https://www.sa.no" data-article-key="sarpsborg-main" data-article-body="Elevene på Sandbakken ungdomsskole har laget sin egen nettavis. Prosjektet gir elevene mulighet til å skrive og publisere saker for skolemiljøet.&#10;&#10;Nettavisen samler elevenes egne historier og viser hva de kan få til når de samarbeider om tekst, bilder og publisering.">
+
+                <img src="media/019EBwjBLaPXv.webp" alt="Skolebygning brukt som illustrasjon til saken om Sandbakken skole" data-article-field="media">
+
+                <div class="article-content">
+
+                    <div class="category" data-article-field="category">
+                        Nyheter
+                    </div>
+
+                    <h2 data-article-field="title">
+                        Elevene på Sandbakken lager sin egen nettavis
+                    </h2>
+
+                    <p data-article-field="excerpt">
+                        Elevene på Sandbakken ungdomsskole har laget sin egen nettavis.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- NEWS 2 -->
+
+            <article class="article article-video-feature" data-article-key="city-today" data-article-body="Et oversiktsfoto gir et blikk på Sarpsborg sentrum, jernbanestasjonen og sporene som går gjennom byen. Fra lufta blir det tydelig hvordan jernbanen og bebyggelsen ligger side om side.&#10;&#10;Bildet brukes som en generell presentasjon av byen. Det dokumenterer ikke en bestemt hendelse eller dagens situasjon.">
+
+                <img src="media/Sarpsborg_station_and_town_centre_from_north_(2).jpg" alt="Oversiktsbilde av Sarpsborg sentrum og jernbanestasjonen" data-article-field="media">
+
+                <div class="article-content">
+
+                    <div class="category" data-article-field="category">
+                        Sarpsborg
+                    </div>
+
+                    <h2 data-article-field="title">
+                        Sarpsborg sentrum sett ovenfra
+                    </h2>
+
+                    <p data-article-field="excerpt">
+                        Et oversiktsbilde viser sentrum, stasjonen og jernbanen gjennom Sarpsborg.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- NEWS 3 -->
+
+            <article class="article" data-url="https://www.sa.no" data-article-key="weekend-match" data-article-body="Kristiansund BK slo Sarpsborg 08 4–2 på bortebane søndag 1. november 2026. Bortelaget fikk en sterk start: Marius Elvius scoret etter tre minutter, Zymer Bytyqi økte ledelsen i det sjette minuttet, og Gustav Christensen gjorde det til 3–0 etter 31 minutter.&#10;&#10;Sarpsborg svarte etter pause. Victor Halvorsen reduserte i det 49. minuttet, og Sondre Sørli scoret på straffespark i det 61. minuttet. På overtid fastsatte Haakon Haugen sluttresultatet til 2–4 for Kristiansund." data-article-source="ESPN, kampdata for Eliteserien: Sarpsborg 08–Kristiansund BK, 1. november 2026.">
+
+                <img src="media/NM(1).jpg" alt="Sarpsborg 08-spillere feirer sammen" data-article-field="media">
+
+                <div class="article-content">
+
+                    <div class="category" data-article-field="category">
+                        Sport
+                    </div>
+
+                    <h2 data-article-field="title">
+                        Sarpsborg 08 tapte 2–4 mot Kristiansund
+                    </h2>
+
+                    <p data-article-field="excerpt">
+                        Kristiansund scoret tre ganger før pause. Sarpsborg svarte etter hvilen, men tapte til slutt 2–4 søndag 1. november.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+
+
+        <!-- MORE NEWS -->
+
+        <h2 class="section-title">
+            Flere nyheter
+        </h2>
+
+        <section class="more-news">
+
+            <div id="publishedStories" class="published-stories" style="display:contents;"></div>
+
+            <article class="article" data-url="https://www.sa.no" data-article-key="news-story">
+
+                <img src="media/school-news.svg" alt="Illustrasjon av en skole" data-article-field="media">
+
+                <div class="article-content">
+
+                    <div class="category" data-article-field="category">
+                        Nyheter
+                    </div>
+
+                    <h2 data-article-field="title">
+                        Ny sak med bilde
+                    </h2>
+
+                    <p data-article-field="excerpt">
+                        En kort introduksjon til artikkelen.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article class="article" data-url="https://www.sa.no" data-article-key="culture-events">
+
+                <img src="media/culture-news.svg" alt="Illustrasjon fra en scene" data-article-field="media">
+
+                <div class="article-content">
+
+                    <div class="category" data-article-field="category">
+                        Kultur
+                    </div>
+
+                    <h2 data-article-field="title">
+                        Kultur og arrangementer
+                    </h2>
+
+                    <p data-article-field="excerpt">
+                        Informasjon om lokale arrangementer.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article class="article" data-url="https://www.sa.no" data-article-key="sports-news">
+
+                <img src="media/community-news.svg" alt="Illustrasjon fra nærmiljøet" data-article-field="media">
+
+                <div class="article-content">
+
+                    <div class="category" data-article-field="category">
+                        Sport
+                    </div>
+
+                    <h2 data-article-field="title">
+                        Siste nytt fra sporten
+                    </h2>
+
+                    <p data-article-field="excerpt">
+                        Oppdateringer fra dagens sportsnyheter.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-inner">
+
+            <div>
+                <div class="footer-logo">
+                    SANDY HILLS
+                </div>
+
+                <p>
+                    Lokale nyheter og historier.
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    Lokale nyheter for Sandbakken barne og ungdomsskole
+                </p>
+                <p class="test-images-note">
+                    Illustrasjonene er testbilder. Bruk egne bilder når dere publiserer ekte saker.
+                </p>
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
+```
